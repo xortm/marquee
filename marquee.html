@@ -1,0 +1,94 @@
+<!DOCTYPE >
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0"/>
+    <title>跑马灯</title>
+</head>
+<style>
+    #dop-marquee {
+        overflow:hidden;
+        width:100%;
+    }
+    /*滚动内容框，宽度足够大，保证所有内容在一行*/
+    #dop-marquee .marquee-box {
+        float: left;
+        width: 2000%;
+    }
+
+    .box{
+        float:left;
+    }
+
+    .block{
+        float:left;
+        margin:0 30px;
+        color:#000;
+        cursor:pointer;
+    }
+
+    .info{
+        float:left;
+        height:40px;
+        line-height:40px;
+    }
+</style>
+<body>
+<div id="dop-marquee">
+    <div class="marquee-box" id="marquee-box">
+        <div id="box1" class="box">
+            <div class="block">
+                <div class="info">3</div>
+            </div>
+            <div class="block">
+                <div class="info">2</div>
+            </div>
+            <div class="block">
+                <div class="info">1</div>
+            </div>
+            <div class="block">
+                <div class="info">4</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //speed 频率，数值越大滚动越慢
+    var speed=20;
+    //滚动所需的dom节点
+    var tab=document.getElementById("dop-marquee");//滚动框
+    var tabBox=document.getElementById("marquee-box");//滚动内容框
+    var tab1=document.getElementById("box1");//滚动内容块
+    //滚动动画
+    function Marquee1(){
+            //取滚动框的子节点数（childNode有两个text节点，所以-2）
+            var nLast=document.getElementById("marquee-box").childNodes.length-2;
+            if(tab.clientWidth>(tab1.clientWidth*(nLast-1))){
+                //当滚动可视框的宽度大于所有滚动内容块的总宽度时，为滚动框增加子节点，增加一个滚动内容块
+                var div=document.createElement('div');
+                div.setAttribute('class','box2');
+                div.innerHTML=tab1.innerHTML;
+                tabBox.appendChild(div);
+                //向左滚动,滚动速度
+                tab.scrollLeft+=2;
+            }
+        else{
+            tab.scrollLeft+=2;
+        }
+        //当滚动框向左滚动的距离大于一个内容块的宽度时，减去一个内容块的宽度
+        if(tab.scrollLeft>=tab1.offsetWidth){
+            tab.scrollLeft-=tab1.offsetWidth;
+        }
+    }
+    //计时器，按照speed，调用Marquee1
+    var MyMar=setInterval(Marquee1,speed);
+    //鼠标移入，停止滚动
+    tab.onmouseover=function() {clearInterval(MyMar)};
+    //鼠标移出，继续滚动
+    tab.onmouseout=function() {MyMar=setInterval(Marquee1,speed)};
+</script>
+
+</body>
+</html>
+
+
